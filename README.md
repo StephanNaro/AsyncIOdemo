@@ -43,7 +43,14 @@ For the rest of the wiring please see the Wiring.jpg and Breadboard.h files.
 
 
 
+# Run
+
+Please run AsyncIOdemoGUI.cmd so that any updates to comms.h are made available to the python program
+
+
+
 # TO DO
+
 
 It looks like I can use QGroupBox to make the GUI look more like in the playlist, thus better, but I don't feel like figuring that out too. If anyone cares to show me how, I'd probably appreciate it.
 
