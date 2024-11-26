@@ -39,10 +39,14 @@ One thing that did not work the way Byte Me had wired it was the tactile button 
 	- B1 via a 10 kΩ resistor to GND;
 	- and B2 to pin 4 on the Arduino.
 
-For the rest of the wiring please see the accompanying photo and the Breadboard.h file.
+For the rest of the wiring please see the Wiring.jpg and Breadboard.h files.
 
 
 
 # TO DO
 
 It looks like I can use QGroupBox to make the GUI look more like in the playlist, thus better, but I don't feel like figuring that out too. If anyone cares to show me how, I'd probably appreciate it.
+
+# LICENCE
+
+For this? Another thing I'm not bothering to look into, so I guess it's public domain.
