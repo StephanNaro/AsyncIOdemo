@@ -1,2 +1,23 @@
+# Project-specific
+comms.py
+
+# Arduino
+*.elf
+*.hex
+build/
+
+# Python
 __pycache__/
-env
+*.pyc
+*.pyo
+env/
+venv/
+*.env
+
+# IDE/Editor
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
