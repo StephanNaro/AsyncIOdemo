@@ -21,7 +21,7 @@ A demo showcasing interaction between an Arduino and a PC via a COM port (e.g., 
 - 10 kΩ resistor (for button).
 - Three 1kΩ resistors (for LEDs).
 - Breadboard and jumper wires.
-- See ![Wiring Diagram](Wiring.jpg "Arduino wiring diagram") for the wiring diagram.
+- See the **Wiring** section for the wiring diagram.
 
 ## Software Requirements
 - Arduino IDE 2.x.
@@ -55,7 +55,7 @@ The wiring diagram is in ![Wiring Diagram](Wiring.jpg "Arduino wiring diagram").
 - **Tactile Button**:
     - Given that the pins are paired (A1-A2, B1-B2),
     - Connect A1 to 5V, B1 to GND via a 10 kΩ resistor, B2 to Arduino pin 4.
-- Other components (servo, LEDs, potentiometer) follow ![Wiring Diagram](Wiring.jpg "Arduino wiring diagram").
+- Other components (servo, LEDs, potentiometer) follow the wiring diagram.
 - `Breadboard.h` defines pin assignments for reference.
 
 ## Inspiration
