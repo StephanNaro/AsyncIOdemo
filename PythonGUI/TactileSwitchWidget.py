@@ -1,4 +1,4 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QFrame
 import comms, commsIO
 
@@ -18,5 +18,6 @@ class TactileSwitchWidget(QFrame):
         self.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
         self.setLineWidth(1)
 
+    @Slot(int)
     def msgReceived(self, count):
-        self.counterText.setText(count + self.spacer)
+        self.counterText.setText(str(count) + self.spacer)

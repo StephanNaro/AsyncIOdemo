@@ -1,8 +1,13 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal, Slot
 from PySide6.QtWidgets import QLabel, QSlider, QPushButton, QGridLayout, QFrame
 import comms, commsIO
 
 class RGBLEDWidget(QFrame):
+    redValueSignal = Signal(str)    # Emits "SetRedLEDValue: <value>"
+    greenValueSignal = Signal(str)  # Emits "SetGreenLEDValue: <value>"
+    blueValueSignal = Signal(str)   # Emits "SetBlueLEDValue: <value>"
+    turnOffSignal = Signal(str)     # Emits "TurnOffRGBLEDs"
+
     def __init__(self):
         super().__init__()
 
@@ -26,7 +31,7 @@ class RGBLEDWidget(QFrame):
         self.offButton.clicked.connect(self.offButton_clicked)
 
         layout = QGridLayout(self)
-        layout.addWidget(heading, 0, 0, 1 ,2)
+        layout.addWidget(heading, 0, 0, 1, 2)
         layout.addWidget(self.redSlider, 1, 0)
         layout.addWidget(self.redButton, 1, 1)
         layout.addWidget(self.greenSlider, 2, 0)
@@ -38,14 +43,21 @@ class RGBLEDWidget(QFrame):
         self.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
         self.setLineWidth(1)
 
+    @Slot()
     def redButton_clicked(self):
         value = str(self.redSlider.value())
-        commsIO.sendWithStartEndMarkers(comms.CONST_msgSetRedLEDValue + value)
+        self.redValueSignal.emit(comms.CONST_msgSetRedLEDValue + value)
+
+    @Slot()
     def greenButton_clicked(self):
         value = str(self.greenSlider.value())
-        commsIO.sendWithStartEndMarkers(comms.CONST_msgSetGreenLEDValue + value)
+        self.greenValueSignal.emit(comms.CONST_msgSetGreenLEDValue + value)
+
+    @Slot()
     def blueButton_clicked(self):
         value = str(self.blueSlider.value())
-        commsIO.sendWithStartEndMarkers(comms.CONST_msgSetBlueLEDValue + value)
+        self.blueValueSignal.emit(comms.CONST_msgSetBlueLEDValue + value)
+
+    @Slot()
     def offButton_clicked(self):
-        commsIO.sendWithStartEndMarkers(comms.CONST_msgTurnOffRGBLEDs)
+        self.turnOffSignal.emit(comms.CONST_msgTurnOffRGBLEDs)

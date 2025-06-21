@@ -1,35 +1,35 @@
 # AsyncIOdemo
-A demo showcasing interaction between an Arduino and a PC via a COM port (e.g., USB cable). The Python GUI, built with PySide6, controls an Arduino to:
 
-- Set a servo angle.
-- Adjust brightness of red, green, and blue LEDs or turn them off.
+A demo showcasing interaction between an Arduino and a PC via a USB serial port, demonstrating skills in Python GUI development, serial communication, and multithreading. The GUI, built with PySide6, controls an Arduino to:
+
+- Set a servo angle (0–180° via slider).
+- Adjust brightness of three separate red, green, and blue LEDs or turn them off.
 - Toggle the Arduino’s onboard LED.
 - Display a tally of tactile button presses.
-- Show potentiometer level and voltage.
+- Show potentiometer level (via progress bar) and voltage (0–5V).
 
-## Features
-- Asynchronous serial communication for real-time Arduino-PC interaction.
-- User-friendly GUI to control Arduino and visualize data.
-- Custom wiring setup with a detailed diagram.
+## Skills Demonstrated
+- **Python and PySide6**: Developed a user-friendly GUI with Qt widgets and layouts.
+- **Serial Communication**: Implemented asynchronous `QSerialPort` communication with a custom message protocol.
+- **Multithreading**: Used `QThread` and signals/slots for thread-safe, non-blocking GUI updates.
+- **Arduino Integration**: Designed robust Arduino-PC interaction with state retention (e.g., button counts).
 
 ## Hardware Requirements
 - Arduino board (e.g., Uno, tested on Uno).
 - Servo motor.
-- Red, green, and blue LEDs.
+- Three separate red, green, and blue LEDs.
 - Tactile button switch.
-- Potentiometer.
-- 10 kΩ resistor (for button).
+- 10kΩ potentiometer.
+- 10kΩ resistor (for button).
 - Three 1kΩ resistors (for LEDs).
 - Breadboard and jumper wires.
-- See the **Wiring** section for the wiring diagram.
+- External 5V power supply for the servo.
 
 ## Software Requirements
 - Arduino IDE 2.x.
 - Python 3.8+.
 - PySide6 (`pip install pyside6`).
-- pyserial (`pip install pyserial`) for serial communication.
 - GNU sed (included with Git Bash or MSYS2 on Windows) for generating `comms.py`.
-- Python is run through a script on the system path.
 
 ## Setup
 1. **Arduino**:
@@ -39,40 +39,60 @@ A demo showcasing interaction between an Arduino and a PC via a COM port (e.g., 
     - Upload the sketch to the Arduino.
 1. **Python GUI**:
     - Install Python 3.8+.
-    - Install dependencies: `pip install -r requirements.txt`.
-    - Run `AsyncIOdemoGUI.cmd` to generate `comms.py` from `comms.h` and launch the GUI.
-    - Note: The GUI uses COM6 by default (defined in `commsIO.py`). Update the port in `commsIO.py` if your Arduino uses a different COM port (check in Arduino IDE under Tools > Port).
+    - Install PySide6: `pip install pyside6`.
+    - Note: The GUI uses `COM4` by default (defined in `PythonGUI/commsIO.py`). Update the port if your Arduino uses a different COM port (check in Arduino IDE under Tools > Port).
 1. **Usage**:
-    - Ensure Arduino is connected via USB to COM6 (update `commsIO.py` if needed).
-    - Run `AsyncIOdemoGUI.cmd` to generate `comms.py` and launch the GUI.
-    - Alternatively, if `comms.py` is already generated, launch the GUI directly with `python AsyncIOdemoGUI.py`.
-    - Use sliders/buttons to control the servo, LEDs, and onboard LED.
-    - View button press tally and potentiometer data in the GUI.
+    - Ensure Arduino is connected to `COM4`.
+    - Run `AsyncIOdemoGUI.cmd` to generate `PythonGUI/comms.py` from `comms.h` and launch the GUI.
+    - Use the slider to set servo angles, buttons to toggle the onboard LED, and sliders/buttons to control LEDs.
+    - View button press counts and potentiometer data in real time.
 
-## Wiring
-The wiring diagram is in ![Wiring Diagram](Wiring.jpg "Arduino wiring diagram"). Key notes:
+## Circuit Setup
+See the circuit photo in ![Circuit Photo](Wiring.jpg "Arduino circuit photo").
+
+This demo requires a breadboard circuit connecting an Arduino to a servo, a 10kΩ potentiometer, a tactile button, and three separate LEDs (red, green, and blue). For pin assignments, refer to the `Breadboard.h` header file (e.g., `SERVO`, `TACTILE`, `POTENTIOMETER`).
+
+- **Power Supply**:
+    - An external 5V power supply is required for the servo to ensure sufficient current.
+    - Connect the power supply’s GND to the Arduino’s GND to establish a common ground.
+
+- **Servo**:
+    - Connect the servo’s power pin to the external 5V supply, its ground pin to the shared GND, and its signal pin to the Arduino pin defined as `SERVO`.
+
+- **10kΩ Potentiometer**:
+    - Connect one outer pin to 5V (from the Arduino), the other to GND, and the wiper (middle pin) to the Arduino pin defined as `POTENTIOMETER`.
+
+- **LEDs (Red, Green, Blue)**:
+    - For each LED:
+      - Connect the cathode (short pin) to GND via a 1kΩ resistor.
+      - Connect the anode (long pin) to the Arduino pin defined as `redLED`, `greenLED`, or `blueLED`, which provides power via digital output.
 
 - **Tactile Button**:
-    - Given that the pins are paired (A1-A2, B1-B2),
-    - Connect A1 to 5V, B1 to GND via a 10 kΩ resistor, B2 to Arduino pin 4.
-- Other components (servo, LEDs, potentiometer) follow the wiring diagram.
-- `Breadboard.h` defines pin assignments for reference.
+    - The button has two pairs of internally connected pins.
+    - Connect one pair to 5V (from the Arduino).
+    - Connect the second pair to the Arduino pin defined as `TACTILE` and to GND via a 10kΩ resistor. The Arduino sketch uses `INPUT_PULLUP`, which may conflict with the external resistor, but this setup functions for the demo.
 
-## Inspiration
-This project was inspired by the [Arduino GUI Using C#](https://www.youtube.com/playlist?list=PLDxm-EGn62t7indrQcJGBchHJCJqTWdGP) playlist on the Byte Me YouTube channel. It was adapted to use Python with PySide6 instead of C#.
+**Note**: All components must share a common GND. The button wiring (external resistor with `INPUT_PULLUP`) may not be optimal but is functional, as adapted from the reference tutorial. Use a single 5V source (Arduino or external supply) for non-servo components to avoid conflicts.
 
-## Additional Resources
-- [Serial Input Basics](https://forum.arduino.cc/t/serial-input-basics-updated/382007) (Arduino forum).
-- [Monitoring COM port in the background](https://www.youtube.com/watch?v=HKgk4i8u8nk) (YouTube).
-- [Ending a Thread](https://stackoverflow.com/questions/323972/is-there-any-way-to-kill-a-thread) (Stack Overflow).
+## Potential Future Improvements
+- Send a message on startup to request the Arduino’s current potentiometer value and button count.
+- Add a `QTimer` in `CommsWorker` to detect communication failures (e.g., no messages for X seconds).
+- Implement Python’s `logging` module to track messages and errors.
+- Port the GUI to C++ Qt to eliminate the Batch script translation.
+- Add a UI combo box to select the serial port and baud rate via `QSerialPortInfo`.
+- Support automatic reconnection if the Arduino is unplugged/replugged.
+- Add a `QLabel` to `ServoWidget` to show the selected angle.
+- Deepen understanding of circuit design (e.g., button wiring) to replace trial-and-error with best practices.
 
 ## Notes
-- The GUI could be improved with QGroupBox for better layout (as in the original C# version). Contributions welcome!
+- This project was inspired by the [Arduino GUI Using C#](https://www.youtube.com/playlist?list=PLDxm-EGn62t7indrQcJGBchHJCJqTWdGP) playlist on the Byte Me YouTube channel, adapted to Python with PySide6 and enhanced with a robust message protocol.
+- The Arduino retains state (e.g., button counts) across GUI restarts, showcasing reliable serial communication.
 - `comms.py` is generated by `AsyncIOdemoGUI.cmd` and ignored by `.gitignore`.
-- Much, if not all, of `MyWidget.commsMonitorThread` in `AsyncIOdemoGUI.py` should be moved into `commsIO.py.recvWithStartEndMarkers` for better code organization, but this requires learning Qt signalling, which I didn’t explore at the time.
+- The button wiring may not be optimal due to the external resistor with `INPUT_PULLUP`, but it functions for the demo, as adapted from the reference tutorial.
+- This project was refactored with assistance from Grok, an AI tool by xAI, which provided guidance on debugging serial communication, optimizing threading, and refining documentation. The core design, implementation, and circuit setup were developed by the author.
 
 ## Contributing
-Feel free to submit issues or pull requests with improvements, especially for GUI enhancements or documentation.
+Submit issues or pull requests with improvements, especially for GUI or documentation enhancements.
 
 ## License
-This project is licensed under the GNU General Public License v3.0 (GPL-3.0) due to its use of PySide6. See [LICENSE](LICENSE) for details.
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0) due to PySide6. See [LICENSE](LICENSE) for details.

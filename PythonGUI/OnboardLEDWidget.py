@@ -1,8 +1,10 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal, Slot
 from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QFrame
 import comms, commsIO
 
 class OnboardLEDWidget(QFrame):
+    ledStateSignal = Signal(str)  # Emits "SwitchLEDon" or "SwitchLEDoff"
+
     def __init__(self):
         super().__init__()
 
@@ -18,10 +20,11 @@ class OnboardLEDWidget(QFrame):
         self.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
         self.setLineWidth(1)
 
+    @Slot()
     def button_toggled(self):
         if self.button.isChecked():
-            commsIO.sendWithStartEndMarkers(comms.CONST_msgLEDon)
+            self.ledStateSignal.emit(comms.CONST_msgLEDon)
             self.button.setText("Off")
         else:
-            commsIO.sendWithStartEndMarkers(comms.CONST_msgLEDoff)
+            self.ledStateSignal.emit(comms.CONST_msgLEDoff)
             self.button.setText("On")

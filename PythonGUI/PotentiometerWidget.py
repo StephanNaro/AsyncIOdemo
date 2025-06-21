@@ -1,4 +1,5 @@
-from PySide6.QtCore import Qt
+
+from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import QProgressBar, QLabel, QVBoxLayout, QFrame
 import comms, commsIO
 
@@ -21,6 +22,7 @@ class PotentiometerWidget(QFrame):
         self.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
         self.setLineWidth(1)
 
+    @Slot(int)
     def msgReceived(self, value):
         self.valueProgressBar.setValue(value)
         volts = value * 5 / 1024
