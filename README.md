@@ -48,7 +48,7 @@ A demo showcasing interaction between an Arduino and a PC via a USB serial port,
     - View button press counts and potentiometer data in real time.
 
 ## Circuit Setup
-See the circuit photo in ![Circuit Photo](Resource/Circuit.jpg "Arduino circuit photo").
+See the circuit photo in ![Circuit Photo](Resources/Circuit.jpg "Arduino circuit photo").
 
 This demo requires a breadboard circuit connecting an Arduino to a servo, a 10kΩ potentiometer, a tactile button, and three separate LEDs (red, green, and blue). For pin assignments, refer to the `Breadboard.h` header file (e.g., `SERVO`, `TACTILE`, `POTENTIOMETER`).
 
