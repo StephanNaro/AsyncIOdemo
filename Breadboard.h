@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // This is a header file for the Arduino sketch
 
 const byte SERVO = 3;

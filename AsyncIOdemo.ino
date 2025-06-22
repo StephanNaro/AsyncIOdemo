@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include <Servo.h>
 #include "Breadboard.h"
 #include "comms.h"

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtSerialPort import QSerialPort
 import comms

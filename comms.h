@@ -1,5 +1,8 @@
-#ifndef COMMS_H                 // This is a header file for the Arduino sketch
+// SPDX-License-Identifier: GPL-3.0-or-later
+#ifndef COMMS_H
 #define COMMS_H
+
+// This is a header file for the Arduino sketch
 
 const long commsBaudRate = 115200;
 const long commsTimeout = 1;

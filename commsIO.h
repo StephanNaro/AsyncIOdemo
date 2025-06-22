@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include "comms.h"
 
 // This is a header file for the Arduino sketch

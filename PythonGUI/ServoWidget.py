@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 from PySide6.QtCore import Qt, Signal, Slot
 from PySide6.QtWidgets import QLabel, QSlider, QPushButton, QGridLayout, QFrame
 import comms, commsIO
