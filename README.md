@@ -26,9 +26,9 @@ A demo showcasing interaction between an Arduino and a PC via a USB serial port,
 - External 5V power supply for the servo.
 
 ## Software Requirements
-- Arduino IDE 2.x.
-- Python 3.8+.
-- PySide6 (`pip install pyside6`).
+- Arduino IDE 2.x. (Tested under v2.3.6.)
+- Python 3.8+. (Tested under v3.11.4.)
+- PySide6 (`pip install pyside6`). (Tested under v6.9.0.)
 - GNU sed (included with Git Bash or MSYS2 on Windows) for generating `comms.py`.
 
 ## Setup
@@ -48,7 +48,7 @@ A demo showcasing interaction between an Arduino and a PC via a USB serial port,
     - View button press counts and potentiometer data in real time.
 
 ## Circuit Setup
-See the circuit photo in ![Circuit Photo](Wiring.jpg "Arduino circuit photo").
+See the circuit photo in ![Circuit Photo](Resource/Circuit.jpg "Arduino circuit photo").
 
 This demo requires a breadboard circuit connecting an Arduino to a servo, a 10kΩ potentiometer, a tactile button, and three separate LEDs (red, green, and blue). For pin assignments, refer to the `Breadboard.h` header file (e.g., `SERVO`, `TACTILE`, `POTENTIOMETER`).
 
@@ -74,11 +74,15 @@ This demo requires a breadboard circuit connecting an Arduino to a servo, a 10k�
 
 **Note**: All components must share a common GND. The button wiring (external resistor with `INPUT_PULLUP`) may not be optimal but is functional, as adapted from the reference tutorial. Use a single 5V source (Arduino or external supply) for non-servo components to avoid conflicts.
 
+## Screenshot
+![Screenshot](Resources/Screenshot.png "Screenshot")
+
 ## Potential Future Improvements
 - Send a message on startup to request the Arduino’s current potentiometer value and button count.
 - Add a `QTimer` in `CommsWorker` to detect communication failures (e.g., no messages for X seconds).
 - Implement Python’s `logging` module to track messages and errors.
 - Port the GUI to C++ Qt to eliminate the Batch script translation.
+    - Alternatively, create a Python script to replace `sed`.
 - Add a UI combo box to select the serial port and baud rate via `QSerialPortInfo`.
 - Support automatic reconnection if the Arduino is unplugged/replugged.
 - Add a `QLabel` to `ServoWidget` to show the selected angle.
